@@ -1,0 +1,72 @@
+<div class="popup-box">
+	<h3>发送站内信</h3>
+	
+	<label>标题：</label><br />
+	<input type="text" id="popup-mail-title" {% if not mail %}class="input-tip"{% endif %} value="{% if mail %}Re:{{ mail.title }}{% else %}输入标题{% endif %}" /><br />
+	
+	{% if not receiver %}
+	<fieldset>
+		<input id="select-single" type="radio" name="receiver" checked="checked" />单人邮件
+		<input id="select-group" type="radio" name="receiver" />分组邮件
+	</fieldset>
+	{% endif %}
+	
+	<label>收件人：</label><br />
+	<input type="text" id="popup-mail-receiver" class="popup-receiver {% if not receiver %}input-tip{% endif %} " value="{% if receiver %}{{ receiver.pk }}{% else %}输入收件人{% endif %}" /><br />
+	
+	{% if not receiver %}
+    <label>分组：</label><br />
+	<input type="text" id="popup-mail-receiver-group" class="popup-receiver input-tip " value="输入分组" /><br />
+    {% endif %}
+    <input type="hidden" id="target-pk" <br />
+	
+	<label>内容：</label><br />
+	<textarea id="popup-mail-content" class="input-tip">输入聊天内容</textarea>
+	
+	<div class="popup-buttons">
+		<input id="popup-mail-send" type="button" value="发送">
+		<input class="popup-cancel" type="button" value="取消">
+	</div>
+	<script type="text/javascript">
+    $('#popup-mail-receiver').autocomplete({
+        minLength: 1,
+        source: function(request, response){
+            console.info(request);
+            $.getJSON('/search/user', {realname: request.term}, function(data){
+                response($.map(data, function(item){
+					var profile = oops.tryGetProfileFromCache(item.pk);
+                    return {
+                    label: profile.name,
+                    value: profile.name,
+					pk: item.pk
+                    }
+                }));
+            });
+        },
+        select: function(event, ui){
+            $(this).val(ui.item.label);
+			$('#target-pk').val(ui.item.pk);
+        }
+    });
+	
+	$('#popup-mail-receiver-group').autocomplete({
+        minLength: 1,
+        source: function(request, response){
+            console.info(request);
+            $.getJSON('/search/usergroup', {name: request.term}, function(data){
+                response($.map(data, function(item){
+                    return {
+                    label: item.fields.description,
+                    value: item.fields.description,
+					users: item.fields.users
+                    }
+                }));
+            });
+        },
+        select: function(event, ui){
+            $(this).val(ui.item.label);
+			oops._popup_users = ui.item.users;
+        }
+    });
+    </script>
+</div>

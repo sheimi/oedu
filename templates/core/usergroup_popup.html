@@ -1,0 +1,40 @@
+<div>
+    <h2>{{ user.get_profile.name }}的所有分组：</h2>
+    <ul id="group-list">
+        {% for group in groups %}
+        <li>
+            <a class="ajax-popup" href="/core/usergroup/popup/{{group.pk}}">{{ group.description }}</a>
+            <a class="group-chat" href="/core/usergroup/crud/{{ group.pk }}">&gt;&gt;聊天</a>
+            <p class="clear"></p>
+        </li>
+        {% endfor %}
+    </ul>
+    <a id="new-group" href="/core/usergroup/popup/new">新增分组</a>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.ajax-popup').fancybox({
+        transitionIn: 'elastic',
+        transitionOut: 'elastic',
+        overlayOpacity: 0.1,
+        opacity: true
+    });
+    $('.group-chat').click(function(e){
+        e.preventDefault();
+        
+        var target_name = $('.ajax-popup', $(this).parent()).html();
+        var url = $(this).attr('href');
+        $.getJSON(url, null, function(data){
+            var session = oops.im.create_session(data[0].fields.users);
+            oops.im.constructChatWindow(session, target_name);
+        });
+        $.fancybox.close();
+    });
+    $('#new-group').fancybox({
+        transitionIn: 'elastic',
+        transitionOut: 'elastic',
+        overlayOpacity: 0.1,
+        opacity: true
+    });
+})
+</script>

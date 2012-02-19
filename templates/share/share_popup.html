@@ -1,0 +1,75 @@
+<div id="share-pre">
+    <div id="selected-list" class="list left">
+        <ul>
+            {% for share in share.share_to.all %}
+            <li id="group-{{share.pk}}" class="group-popup-target">
+                {{ share.description }}
+            </li>
+            {% endfor%}
+        </ul>
+    </div>
+    <div id="candidate-list" class="list left">
+        <ul>
+            {% for not_share in not_shared %}
+            <li id="group-{{not_share.pk}}" class="group-popup-target">
+                {{ not_share.description }}
+            </li>
+            {% endfor%}
+        </ul>
+    </div>
+    <p class="clear">
+    </p>
+    <script type="text/javascript" src="/static/js/jquery/jqueryui/jquery.ui.droppable.min.js">
+    </script>
+    <script type="text/javascript" src="/static/js/jquery/jqueryui/jquery.ui.draggable.min.js">
+    </script>
+</div>
+<script>
+    $(document).ready( function () {
+        $("li.group-popup-target").
+        draggable();
+
+        $('#selected-list').droppable({
+            accept: 'li.group-popup-target',
+            hoverClass: 'hover',
+            drop: function(event, ui) {
+                var dropped_li = ui.draggable;
+                $(dropped_li).appendTo($(this).find('ul')).attr('style', 'position: relative;');
+                update_pre();
+            }
+        });
+
+        $('#candidate-list').droppable({
+            accept: 'li.group-popup-target',
+            hoverClass: 'hover',
+            drop: function(event, ui) {
+                var dropped_li = ui.draggable;
+                $(dropped_li).appendTo($(this).find('ul')).attr('style', 'position: relative;');
+                update_pre();
+            }
+        });
+
+        function update_pre() {
+            var g = new Array()
+            $('#selected-list li').each( function() {
+                var ids = $(this).attr("id");
+                g.push(Number(ids.split("-")[1]));
+            });
+            $.ajax({
+                url: '/share/set_share_to/{{share.pk}}',
+                type: 'PUT',
+                dataType: 'json',
+                data: $.toJSON({operation:'update', groups:g}),
+                success: function() {
+                    $.fancybox.hideActivity();
+                    oops.notif('权限设置成功！');
+                },
+                error: function() {
+                    $.fancybox.hideActivity();
+                    oops.notif('权限设置失败！');
+                }
+            });
+        }
+
+    });
+</script>

@@ -1,0 +1,131 @@
+{% extends "two_cols.html" %}
+
+{% block page_title %}
+Oops主页
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/profile.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/news_list.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/index.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/score/popup.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/profile-editable.css" />
+{% endblock %}
+
+{% block additional_script %}
+<script type="text/javascript" src="/static/js/index-ajax.js"></script>
+<script type="text/javascript" src="/static/js/jquery/dropup.js"></script>
+<script type="text/javascript" src="/static/js/core/upload.js"></script>
+{% endblock %}
+
+
+{% block page_h1 %}
+
+{% endblock %}
+
+{% block content_left %}
+<div class="op" id="main-top-left">
+	<span>个人信息</span>
+</div>
+<div class="tag-box">
+    <div id="user-image">
+        <div id="dropzone">
+            上传头像
+        </div>
+        <img id="user-avatar" src="/static/images/profile/{{ user.pk}}" alt="User avatar" />
+    </div>
+    <ul id="basicinfo">
+        <li>
+            姓名：{{user.username}}
+        </li>
+		{% if "学生" in user.groupnames %}
+        <li>
+            学号：{{user.get_profile.nju_id}}
+        </li>
+        <li>
+            年级：{{user.get_profile.grade}}
+        </li>
+		{% endif %}
+        <li>
+            <label>位置：</label><input id="profile-info-location" value="{{ user.get_profile.location }}" /><br />
+        </li>
+    </ul>
+</div>
+
+<div class="op">
+	<span>快捷操作</span>
+</div>
+<div class="tag-box">
+    <ul id="operations">
+		{% if "老师" in user.groupnames or "辅导员" in user.groupnames %}
+		<li class="op-item">
+			<a class="ajax-popup" href="/anno/popup">发布通知</a>
+		</li>
+        <li class="op-item">
+            <a href="/score">查看成绩</a>
+        </li>
+		{% endif %}
+		<li class="op-item">
+			<a class="ajax-popup" href="/mail/popup">发站内信</a>
+		</li>
+		{% if "学生" in user.groupnames %}
+		<li class="op-item">
+			<a class="ajax-popup" href="/qa/popup">提出问题</a>
+		</li>
+		<li class="op-item">
+			<a class="ajax-popup" href="/feedback/popup">提出反馈</a>
+		</li>
+		<li class="op-item">
+			<a class="ajax-popup" href="/rent/popup">租用东西</a>
+		</li>
+        <li class="op-item">
+            <a class="ajax-popup" href="/score/user/{{user.pk}}">查看成绩</a>
+        </li>
+		{% endif %}
+        {% if "管理员" in user.groupnames %}
+        <li class="op-item">
+            <a class="ajax-popup" href="/core/init">上传用户信息</a>
+        </li>
+        {% endif %}
+        <li class="op-item">
+            <a class="ajax-popup" href="/core/usergroup/popup">管理分组</a>
+        </li>
+        <li class="op-item">
+            <a href="/share/">文件管理</a>
+        </li>
+        <li class="op-item">
+            <a class="ajax-popup" href="/share/link/">分享链接</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content_main %}
+<h2 class="tag-header">更新状态</h2>
+<div class="tag-box box">
+    <textarea rows="3" cols="65" id="status-input"></textarea>
+    <input id="status-submit" type="submit" value="发布" />
+</div>
+<div id="announcements-area" style="display: none;">
+	<h2 class="tag-header">最新通知</h2>
+	<ul id="announcements-list" class="list">
+	</ul>
+</div>
+<h2 class="tag-header"><a href="#"  id="show-status" class="nice-button">状态</a><a href="#" id="show-share" class="nice-button">分享</a>{% if "辅导员" in user.groupnames %}<a id="fdy-special" class="nice-button all" href="#">只看团学组织</a>{% endif %}</h2>
+<div id="news-area">
+	<ul id="news-list" class="list ">
+		
+	</ul>
+</div>
+
+<div id="share-area" style="display: none;">
+	<ul id="share-list" class="list ">
+		
+	</ul>
+</div>
+<div class="clear"></div>
+{% endblock %}
+
+{% block body_script %}
+<script type="text/javascript" src="/static/js/profile-location-editable.js"></script>
+{% endblock %}

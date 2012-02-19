@@ -1,0 +1,100 @@
+div#content {
+    padding: 15px;
+}
+
+div#photo-lib{
+    padding: 10px;
+    border: 5px double #D5E8E7;
+}
+
+div.left {
+    float: left;
+}
+
+div.right {
+    float: right;
+}
+
+div.photo-item {
+    margin: 5px;
+}
+
+div.photo-item img{
+    height: 146px;
+    width: 146px;
+}
+
+div.delete {
+    background: #8BCB2F;
+    border: 1px dashed white;
+    text-align: center;
+    cursor: pointer;
+}
+
+div.delete a, div.delete a:visited{
+    background: #8BCB2F;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 12px;
+    color: white;
+    text-shadow: rgba(0, 0, 0, 0.7) 0 2px 0;
+}
+
+div.delete.delete-hover a {
+    color: black;
+    text-shadow: rgba(255, 255, 255, 0.7) 0 1px 0;
+}
+div#gallery-title {
+    margin-bottom: 10px;
+    color : #D5E8E7;
+}
+div.delete {
+    background: #8BCB2F;
+    border: 1px dashed white;
+    text-align: center;
+}
+
+
+
+div.pre{
+    background: #8BCB2F;
+    border: 1px dashed white;
+    text-align: center;
+}
+
+div.pre a, div.pre a:visited{
+    background: #8BCB2F;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 12px;
+    color: white;
+    text-shadow: rgba(0, 0, 0, 0.7) 0 2px 0;
+}
+
+div.pre.pre-hover a {
+    color: black;
+    text-shadow: rgba(255, 255, 255, 0.7) 0 1px 0;
+}
+div.pre {
+    background: #8BCB2F;
+    border: 1px dashed white;
+    text-align: center;
+}
+
+
+div.list {
+    width: 200px;
+    height: 300px;
+    margin: 10px;
+    border: 1px solid #bbb;
+}
+
+div.list.hover {
+    border: 1px solid red;
+}
+
+ul#candidate, ul#selected {
+    height: 100%;
+}

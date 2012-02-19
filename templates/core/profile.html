@@ -1,0 +1,293 @@
+{% extends "two_cols.html" %}
+
+{% block page_title %}
+{{ profile.get_profile.name}}的主页
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/profile.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/news_list.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/jquery/fullcalendar.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/score/popup.css" />
+{% if user.pk == profile.pk %}
+<link type="text/css" rel="stylesheet" href="/static/css/profile-editable.css" />
+{% endif%}
+{% endblock %}
+
+{% block additional_script %}
+{% if user.pk == profile.pk %}
+<script src="/static/js/jquery/dropup.js" type="text/javascript"></script>
+<script type="text/javascript" src="/static/js/core/upload.js"></script>
+{% endif%}
+{% endblock %}
+
+{% block content_left %}
+<div class="op" id="main-top-left">
+	
+	
+	<span>个人信息</span>
+</div>
+<div class="tag-box">
+    <div id="user-image">
+    {% if user.pk == profile.pk %}
+        <div id="dropzone">
+            上传头像
+        </div>
+    {% endif%}
+        <img id="user-avatar" src="/static/images/profile/{{ profile.pk}}" alt="User avatar" />
+    </div>
+    <ul id="basicinfo">
+        <li>
+				姓名：{{profile.get_profile.name}}
+        </li>
+		{% if "学生" in profile.groupnames %}
+        <li>
+				学号：{{profile.get_profile.nju_id}}
+        </li>
+        <li>
+				年级：{{profile.get_profile.grade}}
+        </li>
+		{% endif %}
+        <li>
+				<label>位置：</label><input id="profile-info-location" {% if user.pk != profile.pk %}disabled="true"{% endif %} value="{{profile.get_profile.location}}" /><br />
+        </li>
+    </ul>
+</div>
+<div class="op">
+	<span>相关操作</span>
+</div>
+<div class="tag-box">
+		<ul id="operations">
+			{% if user.pk == profile.pk %}
+			<!--
+				<li id="op-item"><a href="#" id="profile-modify-info">修改资料</a></li>
+				{% if "学生" in profile.groupnames %}
+				<li class="op-item"><a href="/score/user/{{profile.pk}}" id="profile-check-personal-performance" class="ajax-popup">查看个人成绩</a></li>
+				{% endif %}
+				{% if "老师" in profile.groupnames %}
+				<li class="op-item"><a href="#" id="profile-modify-agenda">修改日程</a></li>
+				{% endif %}
+				{% if "辅导员" in profile.groupnames %}
+				<li class="op-item ajax-popup"><a href="#" id="profile-release-anno">发布通知</a></li>
+				<li class="op-item"><a href="/score" id="profile-check-students-performance">查看学生成绩</a></li>
+				{% endif %}
+				{% if "教务员" in profile.groupnames %}
+				<li class="op-item"><a href="#" id="profile-release-anno">发布通知</a></li>
+				{% endif %}
+			-->
+			{% else %}
+				<li class="op-item"><a href="#" id="profile-start-chat">即时聊天</a></li>
+                {%if "学生" in profile.groupnames and "老师" in user.groupnames%}
+                <li class="op-item">
+                    <a href="/score/user/{{profile.pk}}" class="ajax-popup" id="profile-check-personal-performance">查看个人成绩</a>
+                </li>
+                {% endif %}
+			{% endif %}
+            <li class="op-item">
+                <a href="/image/{{profile.pk}}">相册</a>
+            </li>
+		</ul>
+	
+</div>
+{% endblock %}
+{% block content_main %}
+<div id="content-middle">
+	<div id="menu-holder">
+	<ul id="menu">
+		<li class="current-selected" id="news"><a href="#" class="choice"><span>新鲜事</span></a></li>
+		<li id="leave-messages"><a href="#" class="choice"><span>留言</span></a></li>
+		{% if user.pk == profile.pk %}	
+		<li class="personal-info"><a href="#" class="choice"><span>个人资料</span></a></li>
+			{% if "老师" in profile.groupnames %}
+			<li class="feedback"><a href="#" class="choice"><span>反馈</span></a></li>
+			<li class="question"><a href="#" class="choice"><span>提问</span></a></li>
+			<li class="agenda"><a href="#" class="choice"><span>日程</span></a></li>
+			{% endif %}
+			<!--{% if "辅导员" in profile.groupnames %}
+			<li class="anno-feedback"><a href="#" class="choice"><span>通知反馈</span></a></li>
+			{% endif %}
+			{% if "教务员" in profile.groupnames %}
+			<li class="anno-feedback"><a href="#" class="choice"><span>通知反馈</span></a></li>
+			{% endif %}-->
+		{% else %}
+		<li class="personal-info"><a href="#" class="choice"><span>个人资料</span></a></li>
+			{% if "老师" in profile.groupnames %}
+			<li class="feedback"><a href="#" class="choice"><span>反馈</span></a></li>
+			<li class="question"><a href="#" class="choice"><span>提问</span></a></li>
+			<li class="agenda"><a href="#" class="choice"><span>日程</span></a></li>
+			{% endif %}
+		{% endif %}
+	</ul>
+	</div>
+	<div id="area-content">
+		<div class="news-area">
+			<h2><a href="#"  id="show-status" class="nice-button">状态</a><a href="#" id="show-share" class="nice-button">分享</a></h2>
+			<ul id="news-list" class="list">
+				{% for status in profile.status_set.reverse %}
+				<li>
+					<div class="img"><img class="avatar" src="/static/images/profile/{{ profile.pk}}"  width="40" height="40" alt="no pic"></div>
+					<div class="content"><a href="/profile/{{ profile.pk }}">{{ status.publisher.get_profile.name }}</a> 说：{{ status.content }}<br />
+					<span class="publish-time">{{ status.publish_time|date:"Y-m-d H:i:s" }}<a class="status-reply" href="/status/replylist/{{status.pk}}">回复<span class="reply-num"></span></a>  <a href="/share/status/{{ status.pk }}">分享</a></span><br />
+					<ul class="reply-list">						
+					</ul></div>
+					<div class="clear"></div>
+				</li>
+				{% endfor %}
+			</ul>
+			<ul id="shares-list" class="list" style="display: none;">
+				{% for share in profile.share_set.reverse %}
+				<li>
+					<div class="img">
+						<img class="avatar" src="/static/images/profile/{{ profile.pk }}" height="40" width="40" alt="no pic" />
+					</div>
+					<div class="content">
+						<a href="/profile/{{ profile.pk }}">{{ profile.get_profile.name }}</a> 分享了: {{ share.url }}<br />
+						<span class="publish-time">{{ share.publish_time|date:"Y-m-d H:i:s" }}</span><br />
+						<span class="comment">评论：{{ share.comment }}</span>
+					</div>
+					<div class="clear"></div>
+				</li>
+				{% endfor %}
+			</ul>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="leave-messages-area">
+			<div class="release-area">
+				<p>留言</p>
+				<textarea id="message-input" rows="3" cols="55" class="textarea"></textarea>
+				<input id="message-submit" type="submit" value="留言" class="release"/>
+			</div>
+			<ul id="leave-messages-list" class="list">
+				{% for message in profile.message_received.all %}
+				<li>
+					<div class="img"><img class="avatar" src="/static/images/profile/{{ message.from_user.pk }}"  width="40" height="40" alt="no pic"></div>
+					<div class="content"><a href="/core/profile/{{ message.from_user.pk }}">{{ message.from_user.get_profile.name }}</a> 留言说：{{ message.message }}</div>
+					<p class="clear"></p>
+				</li>
+				{% endfor %}
+			</ul>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="feedback-area">
+			<ul class="content-list">
+				{% for feedback in profile.feedback_receive.all %}
+				<li>
+					<div class="avatar">
+						<img src="/static/images/profile/{{ feedback.publisher.pk }}"  width="40" height="40" alt="no pic" />
+					</div>
+					<div class="content">
+						<span class="title"><a href="/profile/{{ feedback.publisher.pk }}">{{ feedback.publisher.get_profile.name }}</a> 反馈说：{{ feedback.title }}</span>
+						<div class="detail" style="display: none;">
+							<p>{{ feedback.content }}<br /><span class="date">{{ feedback.publish_time|date:"Y-m-d H:i:s" }}</span></p>
+							<!--<ul class="reply-list">
+							</ul>
+							<textarea class="feedback-reply-input" cols="35" rows="1"></textarea>
+							<input class="feedback-reply-button" type="button" value="回复" />
+							<span style="display: none;">{{feedback.pk}}</span>-->
+						</div>
+					</div>
+					<div class="clear"></div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	
+		<div class="profile-question-area">
+			<ul class="content-list">
+				{% for question in profile.question_receive.all %}
+				<li>
+					<div class="avatar">
+						<img src="/static/images/profile/{{ question.publisher.pk }}"  width="40" height="40" alt="no pic" />
+					</div>
+					<div class="content">
+						<span class="title"><a href="/profile/{{ question.publisher.pk }}">{{ question.publisher.get_profile.name }}</a> 反馈说：{{ question.title }}</span>
+						<div class="detail" style="display: none;">
+							<p>{{ question.content }}<br /><span class="date">{{ question.publish_time|date:"Y-m-d H:i:s" }}</span></p>
+							<ul class="reply-list" style="clear:both;">
+								{% for answer in question.answer_set.all %}
+								<li>
+									<img src="/static/images/profile/{{ answer.publisher.pk }}" height="16" width="16" alt="no pic" />
+									<a href="/profile/{{ answer.publisher.pk }}">{{ answer.publisher.get_profile.name }}</a> 说：{{ answer.content }}<span class="date">{{ answer.publish_time|date:"Y-m-d H:i:s" }}</span>
+								</li>
+								{% endfor %}
+							</ul>
+							<textarea class="question-reply-input" cols="35" rows="1"></textarea>
+							<input class="question-reply-button" type="button" value="回复" />
+							<span style="display: none;">{{question.pk}}</span>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		
+		<div class="personal-info-area">
+			<label>地址：</label><input id="profile-info-address" {% if user.pk != profile.pk %}disabled="true"{% endif %} value="{{profile.get_profile.address}}" /><br />
+			<label>邮箱地址：</label><input id="profile-info-email" {% if user.pk != profile.pk %}disabled="true"{% endif %} value="{{profile.email}}" /><br />
+			<label>兴趣爱好：</label><input id="profile-info-interested_in" {% if user.pk != profile.pk %}disabled="true"{% endif %} value="{{profile.get_profile.interested_in}}" /><br />
+			<label>手机号：</label><input id="profile-info-mobile" {% if user.pk != profile.pk %}disabled="true"{% endif %} value="{{profile.get_profile.mobile}} " /><br />
+			<label>研究领域：</label><input id="profile-info-research_field" {% if user.pk != profile.pk %}disabled="true"{% endif %} value="{{profile.get_profile.research_field}}" /><br />
+			<label>QQ：</label><input id="profile-info-qq" {% if user.pk != profile.pk %}disabled="true"{% endif %} value="{{profile.get_profile.qq}}" /><br />
+			<label>MSN：</label><input id="profile-info-msn" {% if user.pk != profile.pk %}disabled="true"{% endif %} value="{{profile.get_profile.msn}}" /><br />
+		</div>
+		
+		<div class="agenda-area">
+			<div id="agenda"></div>
+		</div>
+		
+	</div>
+</div>
+
+<div id="content-right">
+	<div id="tag-content">
+		<h2 class="op">Tags</h2>
+		<div class="tag-box" id="tagarea">
+			<ul id="tag-list">
+				{% for tag in profile.tag_set.all%}
+						<li class="tag-item">
+								<a href="/search?query={{ tag.description }}&tag">{{ tag.description }}</a>
+						</li>
+				{% endfor %}
+				{% if user.pk == profile.pk %}
+				<li id="tag-add">
+					<a href="#" id="profile-add-tag">+</a>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+{% endblock %}
+{% block body_script %}
+	<script type="text/javascript" src="/static/js/jquery/jquery-ui-1.8.11.custom.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery/fullcalendar.min.js"></script>
+	<script type="text/javascript" src="/static/js/profile.js"></script>
+	<script type="text/javascript" src="/static/js/profile-ajax.js"></script>
+	{% if user.pk == profile.pk %}
+	<script type="text/javascript" src="/static/js/profile-editable.js"></script>
+	<script type="text/javascript" src="/static/js/profile-location-editable.js"></script>
+	<script type="text/javascript" src="/static/js/profile/calendar-editable.js"></script>
+	{% else %}
+	<script type="text/javascript" src="/static/js/profile/calendar-normal.js"></script>
+{% endif%}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#show-status').click(function(e){
+		e.preventDefault();
+		
+		$('#shares-list').slideUp();
+		$('#news-list').slideDown();
+	});
+	$('#show-share').click(function(e){
+		e.preventDefault();
+		
+		$('#news-list').slideUp();
+		$('#shares-list').slideDown();
+	});
+});
+</script>
+{% endblock%}

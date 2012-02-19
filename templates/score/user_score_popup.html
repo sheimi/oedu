@@ -1,0 +1,50 @@
+<div id='scores'>
+    <div class="title">{{student.get_profile.name}}的成绩</div>
+    <ul>
+        <li>
+            <div class="list-title">
+                <div class="course">科目</div>
+                <div class="score">成绩</div>
+                <div class="g-p">学分</div>
+            </div>
+        </li>
+        {% for score in scores %}
+        <li>
+            {% if "老师"  in user.groupnames %}
+            <a href="/score/course/{{score.course.pk}}" class="user-ajax" title="{{score.course.name}}的成绩">
+            {% else %}
+            <a class="user-ajax" title="{{score.course.name}}的成绩">
+            {% endif %}
+            <div class="score-li">
+                <div class="course">{{score.course.name}}</div>
+                <div class="score">{{score.score}}</div>
+                <div class="g-p">{{score.course.grade_point}}</div>
+            <div>         
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class='gpa'>{{student.get_profile.name}}的GPA是 {{student.usergpa.gpa}}</div>
+    {%if "老师" in user.groupnames%}
+    <script>
+    $('.score-li').hover(function() {
+        $(this).css({
+            background: 'rgba( 255, 255, 190, 10)'
+        });
+    }, function() {
+        $(this).css({
+            background: 'transparent'
+        });
+    });
+    $('a.user-ajax').fancybox({
+        transitionIn: 'elastic',
+        transitionOut: 'elastic',
+        overlayOpacity: 0.1,
+        opacity: true,
+        autoDimensions: false,
+        width: 500,
+        height: 400
+    });
+    {% endif %}
+    </script>
+</div>

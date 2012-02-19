@@ -1,0 +1,78 @@
+{%extends "base.html"%}
+
+{% block page_title %}
+站内信
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/anno.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/mail.css" />
+{% endblock %}
+
+{% block additional_script %}
+
+{% endblock %}
+
+{% block content%}
+<div id="body">
+	<div id="title"><h1>我的站内信</h1><a id="popup-button" class="ajax-popup" href="/mail/popup">发站内信</a></div>
+	<p class="clear"></p>
+	<div id="select">
+		<ul>
+			<li><a href="#" id="all" class="current-select">全部</a></li>
+			<li><a href="#" id="read">已读</a></li>
+			<li><a href="#" id="unread">未读</a></li>
+		</ul>
+	</div>
+	<!--<div class="page">
+		<ul>
+			<li><a href="#" class="page-1 current-page">1</a></li>
+			<li><a href="#" class="page-2">2</a></li>
+			<li><a href="#" class="page-next">下一页</a></li>
+		</ul>
+	</div>-->
+	<div id="table">
+		<table>
+		    <thead>
+				<tr>
+		            <td></td>
+				    <td>发件人</td>
+					<td>标题</td>
+					<td>日期</td>
+				</tr>
+		    </thead>
+			<tbody>
+				{% for mail in mails%}
+				<tr {% if not mail.is_read %}class="unread"{% endif %}>
+					<td class="flag"><input type="checkbox" /></td>
+					<td class="sender"><a href="/profile/{{ mail.from_user.pk }}"><span>{{ mail.from_user.get_profile.name }}</span></a></td>
+					<td class="content">
+							<span class="title">{{ mail.title }}</span>
+							<p class="detail" style="display: none;">{{ mail.message }}<br />
+							<a href="/mail/popup/{{ mail.pk }}/{{ mail.from_user.pk }}" class="ajax-popup">回复</a></p>
+					</td>
+					<td class="date"><span>{{ mail.sent_time }}</span></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+	<!--<div class="page">
+		<ul>
+			<li><a href="#" class="page-1 current-page">1</a></li>
+			<li><a href="#" class="page-2">2</a></li>
+			<li><a href="#" class="page-next">下一页</a></li>
+		</ul>
+	</div>-->
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('span.title').toggle(function(){
+		$('.detail', $(this).parent()).slideDown();
+	}, function(){
+	    $('.detail', $(this).parent()).slideUp();
+	});
+});
+</script>
+{%endblock%}

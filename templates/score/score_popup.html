@@ -1,0 +1,43 @@
+<div id="scores">
+    <div class="title">{{course_name}}的成绩</div>
+    <ul>
+        <li>
+            <div class="list-title">
+                <div class="name">姓名</div>
+                <div class="nju_id">学号</div>
+                <div class="score">成绩</div>
+            </div>
+        </li>
+        {% for score in scores %}
+        <li>
+            <a href="/score/user/{{score.student.pk}}" class="user-ajax" title="{{score.student.get_profile.name}}的成绩">
+            <div class="score-li">
+                <div class="name">{{score.student.get_profile.name}}</div>
+                <div class="nju_id">{{score.student.get_profile.nju_id}}</div>
+                <div class="score">{{score.score}}</div>
+            <div>     
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    <script>
+    $('.score-li').hover(function() {
+        $(this).css({
+            background: 'rgba( 255, 255, 190, 10)'
+        });
+    }, function() {
+        $(this).css({
+            background: 'transparent'
+        });
+    });
+    $('a.user-ajax').fancybox({
+        transitionIn: 'elastic',
+        transitionOut: 'elastic',
+        overlayOpacity: 0.1,
+        opacity: true,
+        autoDimensions: false,
+        width: 500,
+        height: 400
+    });
+    </script>
+</div>

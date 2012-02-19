@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+
+{% block page_title %}
+Search Result
+{% endblock %}
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/search/search.css" />
+{% endblock %}
+
+{% block additional_script %}
+
+{% endblock %}
+
+{% block content%}
+<div id="search-result-area">
+    <div id="menu">
+        <div id="search-form">
+            <input id="input-search" type="text" value="{{query}}"/>
+        </div>
+        <ul>
+            <li><div {%if not tag%}class="selected"{%endif%} id="menu-user">查找用户</div></li>
+            <li><div id="menu-tag" {%if tag%}class="selected"{%endif%}>查找标签</div></li>
+            
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div id="result-list">
+        <ul id="results">
+            
+        </ul>
+    </div>
+</div>
+{%endblock%}
+
+{% block body_script %}
+<script>
+$(document).ready(function () {
+    {%if tag%}
+    var search_type = "tag";
+    {%else%}
+    var search_type = "user";
+    {%endif%}
+    query = new Object()
+    {%if realname%}
+        query.realname="{{realname}}";
+    {% endif %}
+    {% if gpa%}
+        query.gpa = "{{gpa}}";
+    {% endif %}
+    search();
+    $("#menu-user").click(function(){
+        $("#menu li div").removeClass("selected");
+        $(this).addClass("selected");
+        search_type = "user";
+        search();
+    });
+    $("#menu-tag").click(function() {
+        $("#menu li div").removeClass("selected");
+        $(this).addClass("selected");
+        search_type = "tag";
+        search();
+    });
+    $("#input-search").keydown(function(e) {
+        var key = e.which;
+        if (key != 13 && key != 10)
+            return;
+        search();
+    });
+    
+    function search() {
+        $('#result-list li').each(function() {
+           $(this).remove();
+        });
+        var qs = $("#input-search").val().trim();
+        if (search_type == 'user') {
+            qs = qs.split(' ');
+            var query = new Object();
+            for (var i = 0; i < qs.length; i++) {
+                if (qs[i].slice(0, 3) == 'gpa') {
+                    query.gpa = qs[i];
+                } else {
+                    query.realname = qs[i]
+                }
+            }
+            load_search_user(query);
+        }
+        if (search_type == "tag") {
+            var query = new Object();
+            query.name = qs;
+            load_search_tag(query);
+        }
+    }
+    
+    function load_search_user(query) {
+        $.ajax({
+           url: '/search/user_info',
+           datatype:'json',
+           method: 'GET',
+           data: query,
+           success: function(data) {
+               
+               $('<li class="item-title"><div class="item-img left"></div><div class="left item-name">姓名</div><div class="left item-njuid">学号</div></li>').hide().appendTo("#result-list ul").fadeIn();
+               for (var i = 0; i < data.length; i++) {
+                   var node = create_user_node(data[i]);
+                   $(node).hide().appendTo("#results").fadeIn();
+               }
+               add_effacts();
+           },
+           error: function() {
+               
+           }  
+        });
+    }
+    
+    function load_search_tag(q) {
+        $.ajax({
+           url: '/search/tag',
+           datatype:'json',
+           method: 'GET',
+           data: q,
+           success: function(data) {
+               $('<li class="item-title"><div class="left item-name">名称</div></li>').hide().appendTo("#result-list ul").fadeIn();
+               for (var i = 0; i < data.length; i++) {
+                   var node = create_tag_node(data[i]);
+                   $(node).hide().appendTo("#results").fadeIn();
+               }
+               add_effacts();
+           },
+           error: function() {
+               
+           }  
+        });
+    }
+    
+    function create_user_node(data) {
+        var id = data.fields.user;
+        var name = data.fields.name;
+        var nju_id = data.fields.nju_id;
+        var str = '<li class="item" id="item-'
+            +id+'"><div><img class="item-img left" src="/static/images/profile/' 
+            + id + '" /><div class="item-name left">'+name+'</div><div class="item-njuid left">'
+            +nju_id+'</div></div><div class="clear"></div></li>'
+        return str;
+    }
+    
+    function create_tag_node(data) {
+        var id = data.pk;
+        var name = data.fields.description;
+        var str = '<li class="item" id="item-tag-' + id + '"></div><div class="item-name left">' + name 
+                + '</div><div class="clear"></div><div class="user-list-'+id+'" style="display:none;">['+data.fields.users
+                +']</div><div class="down-'+id+'" style="display:none">false</div><div class="get-'+id+'" style="display:none">false</div><div class="users-'
+                +id+'" style="display: none"><ul class="user-items-list"></ul></div>';
+        return str;
+    }
+    
+    function add_effacts() {
+        $(".item").hover(function() {
+            $(this).addClass("hover");
+        }, function() {
+            $(this).removeClass("hover");
+        }).click(function(){
+            if (search_type == 'user') {
+                var id = $(this).attr("id").split('-')[1];
+                var url = "/profile/" + id;
+                window.location.href = url;
+            }
+            if (search_type == 'tag') {
+                var id = $(this).attr("id").split('-')[2];
+                var down = eval($(this).find(".down-" + id).text());
+                if (down) {
+                    $(this).find(".users-" + id).slideUp(); 
+                    $(this).find(".down-" + id).text("false");
+                    return;
+                }
+                $(this).find(".down-"+id).text("true");
+                var get = eval($(this).find(".get-"+id).text());
+                if (get) {
+                    $(this).find(".users-"+id).slideDown(); 
+                    return
+                }
+                $(this).find(".get-"+id).text("true");
+                var user_list = eval($(this).find(".user-list-"+id).text());
+                var lis = $(this).find(".users-"+id+" ul");
+                var current = $(this);
+                for (var i = 0; i < user_list.length; i++) {
+                    $.ajax({
+                        url: '/core/crud/' + user_list[i],
+                        datatype: 'json',
+                        method: 'GET',
+                        success: function(data) {
+                            for (var i = 0; i < data.length; i++) {
+                                var node = '<li class="left"><a href="/profile/'+ data[i].pk +'"><img alt="'+data[i].name
+                                        +'" class="item-img-tag" src="/static/images/profile/'+data[i].pk+'" /></a><div class="tag-name">'
+                                        + data[i].name +'</div></li>';
+                                $(node).appendTo(lis);
+                            }
+                            $('<div class="clear"></div>').appendTo(current.find(".users-" + id));
+                            current.find(".users-"+id).slideDown(); 
+                        },
+                        error: function(data) {
+                            
+                        }
+                    });
+                }
+            }
+        });
+    }
+});
+</script>
+{%endblock%}

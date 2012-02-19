@@ -1,0 +1,46 @@
+<div class="popup-box">
+	<h3>发布通知</h3>
+	
+	<label>标题：</label><br />
+	<input type="text" id="popup-anno-title" class="input-tip" value="输入标题" /><br />
+	
+	<fieldset>
+		<input id="select-single" type="radio" name="receiver" checked="checked" />按年级发送
+		<input id="select-group" type="radio" name="receiver" />按分组发送
+	</fieldset>
+	
+	<label>年级：</label><br />
+	<input type="text" id="popup-anno-receiver" class="input-tip popup-receiver" value="输入要发给的年级" /><br />
+	
+	<label>分组：</label><br />
+	<input type="text" id="popup-anno-receiver-group" class="input-tip popup-receiver" value="输入要发给的分组" /><br />
+	
+	<label>内容：</label><br />
+	<textarea id="popup-anno-content" class="input-tip">输入通知内容</textarea>
+	
+	<div class="popup-buttons">
+		<input id="popup-anno-send" type="button" value="发布">
+		<input class="popup-cancel" type="button" value="取消">
+	</div>
+	<script type="text/javascript">
+	$('#popup-anno-receiver-group').autocomplete({
+        minLength: 1,
+        source: function(request, response){
+            console.info(request);
+            $.getJSON('/search/usergroup', {name: request.term}, function(data){
+                response($.map(data, function(item){
+                    return {
+                    label: item.fields.description,
+                    value: item.fields.description,
+					users: item.fields.users
+                    }
+                }));
+            });
+        },
+        select: function(event, ui){
+            $(this).val(ui.item.label);
+			oops._popup_users = ui.item.users;
+        }
+    });
+    </script>
+</div>

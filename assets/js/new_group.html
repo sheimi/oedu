@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="jquery/jquery-1.5.1.min.js"></script>
+        <script type="text/javascript" src="jquery/jqueryui/jquery.ui.core.min.js"></script>
+        <script type="text/javascript" src="jquery/jqueryui/jquery.ui.widget.min.js"></script>
+        <script type="text/javascript" src="jquery/jqueryui/jquery.ui.mouse.min.js"></script>
+        <script type="text/javascript" src="jquery/jqueryui/jquery.ui.draggable.min.js"></script>
+        <script type="text/javascript" src="jquery/jqueryui/jquery.ui.droppable.min.js"></script>
+        <style type="text/css">
+        body {
+            background-color: #eee;
+        }
+        #main {
+            width: 1000px;
+            height: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, .35);
+            box-shadow: 0 0 10px #555;
+        }
+        #left {
+            float: left;
+            
+        }
+        #right {
+            float: right;
+        }
+        
+        
+        /* Styling*/
+        .list-container {
+            width: 450px;
+            height: 500px;
+            margin: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #555;
+        }
+        #filter-area {
+            padding: 5px;
+        }
+        #filter-area>*{
+            float: right;
+        }
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 500px;
+        }
+        ul.hover {
+            background-color: #fff;
+        }
+        ul li {
+            margin: 5px;
+            background-color: #cbcbcb;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        span {
+            float: left;
+            margin: auto 5px;
+        }
+        span.id {
+            width: 100px;
+            margin-top: 10px;
+        }
+        span.name {
+            margin-top: 10px;
+        }
+        .clear {
+            clear: both;
+        }
+        </style>
+    </head>
+    
+    <body>
+        <div id="main">
+            <div id="filter-area">
+                <span><label>筛选：</label><input id="filter-input" type="text" /></span>
+            </div>
+            <p class="clear"></p>
+            <div id="left" class="list-container">
+                <ul id="selected-list">
+                    
+                </ul>
+            </div>
+            
+            <div id="right" class="list-container">
+                <ul id="candidate-list">
+                    <li>
+                        <span class="avatar"><img src="../198.png" /></span><span class="id">091250198</span><span class="name">姚佳玮</span><p class="clear"></p>
+                    </li>
+                    <li>
+                        <span class="avatar"><img src="../198.png" /></span><span class="id">091250197</span><span class="name">杨宜杰</span><p class="clear"></p>
+                    </li>
+                    <li>
+                        <span class="avatar"><img src="../198.png" /></span><span class="id">091250196</span><span class="name">杨洋</span><p class="clear"></p>
+                    </li>
+                    <li>
+                        <span class="avatar"><img src="../198.png" /></span><span class="id">091250199</span><span class="name">姚嘉俊</span><p class="clear"></p>
+                    </li>
+                    <li>
+                        <span class="avatar"><img src="../198.png" /></span><span class="id">091250121</span><span class="name">钱钰</span><p class="clear"></p>
+                    </li>
+                    <li>
+                        <span class="avatar"><img src="../198.png" /></span><span class="id">091250220</span><span class="name">张日臻</span><p class="clear"></p>
+                    </li>
+                </ul>
+            </div>
+            <input id="submit" type="button" value="查看选中ID" />
+            <p id="id-area"></p>
+        </div>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $('#selected-list').droppable({
+                accept: '.list-container li',
+                hoverClass: 'hover',
+                drop: function(event, ui){
+                    console.info('dropped to selected list');
+                    var dropped_li = ui.draggable;
+                    $(dropped_li).appendTo($(this)).attr('style', 'position: relative;');
+                }
+            });
+            
+            $('#candidate-list').droppable({
+                accept: '.list-container li',
+                hoverClass: 'hover',
+                drop: function(event, ui){
+                    console.info('dropped to candidate list');
+                    var dropped_li = ui.draggable;
+                    $(dropped_li).appendTo($(this)).attr('style', 'position: relative;');
+                }
+            });
+            
+            function displayDragInfo(li){
+                var $this = $(li);
+                var id = $('span.id', $this).html();
+                var name = $('span.name', $this).html();
+                
+                console.info('dragged id=' + id + ', name=' + name);
+            }
+            
+            $('#candidate-list li').draggable();
+            
+            $('#filter-input').keyup(function(e){
+                var keyword = $(this).val();
+                $('#candidate-list li').each(function(index){
+                    var name = $('span.name', $(this)).html();
+                    if(name.indexOf(keyword) === -1){
+                        $(this).slideUp();
+                    }else{
+                        $(this).slideDown();
+                    }
+                });
+            });
+            
+            $('#submit').click(function(e){
+                e.preventDefault();
+                
+                var p = '';
+                $('#selected-list li').each(function(index){
+                    var id = $('span.id', $(this)).html();
+                    p += id + ' ';
+                });
+                
+                $('#id-area').html(p);
+            });
+        });
+        </script>
+    </body>
+</html>

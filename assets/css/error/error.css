@@ -1,0 +1,23 @@
+#oops {
+    /*-webkit-transition: -webkit-transform 10s ease-in;
+}
+
+#oops:hover {
+    -webkit-transform:rotate(7200deg)
+}
+*/
+        -webkit-animation-name: cate;
+        -webkit-animation-duration: 3s;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-iteration-count: 200;
+}
+#oops a{
+    background: url(/static/images/core/oops.png) no-repeat top center;
+    display: block;
+    margin-left:-40px;
+    width: 400px;
+    height: 94px;
+    overflow: hidden;
+    padding-bottom: 30px;
+    text-indent: -9999px;
+}

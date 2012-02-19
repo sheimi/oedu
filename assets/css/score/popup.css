@@ -1,0 +1,60 @@
+#scores li div, #courses li div {
+    height: 30px;
+    font-size: 1em;
+    padding: 2px;
+}
+#courses .course-name, #scores .coures-name{
+    float: left;
+    width: 350px;
+    margin: 0px 10px 0px 10px;
+
+}
+#courses .course-grade, #scores .course-grade{
+    float: left;
+    width: 150px;
+    margin: 0px 10px 0px 10px;
+}
+#courses .grade-point, #scores .grade-point{
+    float: left;
+    width: 150px;
+    margin: 0px 10px 0px 10px;
+}
+#courses .list-title, #scores .list-title{
+    border-top: 4px double #D5E8E7;
+    border-bottom: 4px double #D5E8E7;
+}
+#courses .course-li, #courses .score-li , #scores .course-li, #scores .score-li{
+    border-bottom: 1.5px solid #D5E8E7;
+}
+
+#courses .name, #courses .score, #courses .g-p, #scores .name, #scores .score, #scores .g-p{
+    float: left;
+    width: 100px;
+}
+#courses .nju_id, #scores .nju_id{
+    float: left;
+    width: 180px;
+}
+#courses .course, #scores .course{
+    float: left;
+    width: 250px;
+}
+.clear {
+    clear: both;
+}
+#courses .title, #courses .gpa, #scores .title, #scores .gpa{
+    text-align: center;
+    font: 1em "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+    color: #5BA4A1;
+    margin: 5px;
+    margin-bottom: 15px;
+}
+
+#courses .gpa, #scores .gpa{
+    color: #FF88FF;
+}
+
+#courses li a.ajax, #courses li a.user-ajax, #scores li a.ajax, #scores li a.user-ajax{
+    font: 1em "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+    color: #1481B8;
+}

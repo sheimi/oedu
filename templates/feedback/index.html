@@ -1,0 +1,64 @@
+{%extends "base.html"%}
+
+{% block page_title %}
+反馈汇总
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/anno.css" />
+{% endblock %}
+
+{% block additional_script %}
+
+{% endblock %}
+
+{% block content%}
+<div id="body">
+	<div id="title"><h1>反馈</h1></div>
+	<!--
+	<div class="page">
+		<ul>
+			<li><a href="#" class="page-1 current-page">1</a></li>
+			<li><a href="#" class="page-2">2</a></li>
+			<li><a href="#" class="page-next">下一页</a></li>
+		</ul>
+	</div>
+	-->
+	<div id="table">
+		<table>
+			<tbody>
+				<tr>
+					<td class="profile-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="name-and-date"><span class="name"><a href="#">姚佳玮</a></span><span class="date">2011-05-24 09:30</span></td>
+					<td class="anno-content"><div><span class="title"><a href="#">关于作业</a></span><span class="detail"><a href="#">老师，作业有点多啊， 我们都来不及做啦~~~...</a></span></div></td>
+					<td class="teacher-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="teacher-name"><span class="name"><a href="#">激动哥</a></span></td>
+				</tr>
+				<tr>
+					<td class="profile-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="name-and-date"><span class="name"><a href="#">姚佳玮</a></span><span class="date">2011-05-24 09:30</span></td>
+					<td class="anno-content"><div><span class="title"><a href="#">关于PPT</a></span><span class="detail"><a href="#">老师你PPT做得真好，很详细啊，跟书上一模一样的...</a></span></div></td>
+					<td class="teacher-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="teacher-name"><span class="name"><a href="#">激动哥</a></span></td>
+				</tr>
+				<tr>
+					<td class="profile-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="name-and-date"><span class="name"><a href="#">姚佳玮</a></span><span class="date">2011-05-24 09:30</span></td>
+					<td class="anno-content"><div><span class="title"><a href="#">关于上课</a></span><span class="detail"><a href="#">老师你上课太有激情了，我们都很喜欢你...</a></span></div></td>
+					<td class="teacher-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="teacher-name"><span class="name"><a href="#">激动哥</a></span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!--
+	<div class="page">
+		<ul>
+			<li><a href="#" class="page-1 current-page">1</a></li>
+			<li><a href="#" class="page-2">2</a></li>
+			<li><a href="#" class="page-next">下一页</a></li>
+		</ul>
+	</div>
+	-->
+</div>
+{%endblock%}

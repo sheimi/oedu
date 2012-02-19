@@ -1,0 +1,106 @@
+div#content {
+    padding: 15px;
+}
+
+div#search-result-area{
+    padding: 10px;
+    border: 5px double #D5E8E7;
+}
+
+#search-form input {
+    width: 99%;
+    float: left;
+    background: white;
+    border: 1px solid #999;
+    height: 25px;
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+}
+
+#menu {
+    background: #CEE1EE;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#menu li div {
+    float: left;
+    margin: 5px;
+    font: 15px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+    color: #005EAC;
+    text-shadow: rgb(255,255,255) 0px 1px 1px;
+    padding: 5px;
+    cursor: pointer;
+} 
+
+#menu li div.selected {
+    border-radius: 10px;
+    background: #68A3CA;
+    color: #fff;
+    text-shadow: rgb(100,100,100) 0px 1px 1px;
+    cursor: default;
+}
+
+#result-list li {
+    font-size: 1em;
+    padding: 5px;
+}
+.left {
+    float: left;
+}
+#result-list li.item-title {
+    margin-top: 10px;
+    height: 30px;
+    border-top: 4px double #D5E8E7;
+    border-bottom: 4px double #D5E8E7;
+    padding: 2px;
+}
+
+#result-list li.item-title div{
+    height: 25px;
+}
+
+#result-list li.item {
+    border-bottom: 1.5px solid #D5E8E7;
+    padding: 2px;
+    cursor: pointer;
+}
+
+#result-list li .item-img, #result-list li .item-name, #result-list li .item-njuid {
+    width: 200px;
+    margin-left: 5px;
+    margin-right: 15px;
+    text-align: center;
+    font: 1em "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+    color: #5BA4A1;
+} 
+
+
+#result-list li .item-img {
+    height: 40px;
+    width: 40px;
+}
+
+#result-list li.item .item-img, #result-list li.item .item-name, #result-list li.item .item-njuid {
+    font: 1.5em "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+}
+
+#result-list li.item .item-name, #result-list li.item .item-njuid {
+    padding-top: 6px;
+}
+
+li.item.hover {
+    background: #FFFFBE
+}
+
+.item-img-tag {
+    height: 50px;
+    width: 50px;
+}
+
+.tag-name {
+    font: 1em "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;    
+    color: #5BA4A1;
+    text-align: center;
+}

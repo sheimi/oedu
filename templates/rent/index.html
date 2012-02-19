@@ -1,0 +1,159 @@
+{%extends "base.html"%}
+
+{% block page_title %}
+租用管理
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/anno.css" />
+<style type="text/css">
+h2 {
+    margin-left: 10px;
+}
+table {
+    width: 100%;
+}
+td {
+    border: 1px solid #eee;
+    padding: 2px;
+}
+span.appl-approved {
+    margin: 10px;
+    display: block;
+    background: rgba(51, 204, 51, .5);
+    border-radius: 2px;
+    padding: 5px;
+    color: #fff;
+}
+span.appl-declined {
+    margin: 10px;
+    display: block;
+    background: rgba(255, 0, 0, .5);
+    border-radius: 2px;
+    padding: 5px;
+    color: #fff;
+}
+#rent-main {
+    margin: 10px;
+}
+#content {
+    padding: 10px;
+}
+.pic-item {
+    margin: 10px;
+}
+.title {
+    margin: 5px;
+}
+.detail {
+    margin: 5px;
+}
+</style>
+{% endblock %}
+
+{% block additional_script %}
+
+{% endblock %}
+
+{% block content%}
+{% if "老师" in user.groupnames %}
+<div id="rent-main">
+<h2>{{ user.get_profile.name }} 老师，以下是需要您处理的申请。</h2>
+<table id="table">
+    <tbody>
+        <tr>
+            <th></th>
+            <th>申请人</th>
+            <th>申请理由</th>
+            <th>受理</th>
+        </tr>
+        {% for application in user.applications_to.all %}
+        <tr>
+            <td class="profile-pic" style="width:20%;"><a href="/profile/{{application.applicants.pk}}"><img src="/static/images/profile/{{ application.applicants.pk }}"  width="40" height="40" alt="no pic" class="pic-item"></a></td>
+            <td class="name-and-date" style="width:20%;"><span class="name"><a href="/profile/{{ application.applicants.pk }}">{{ application.applicants.get_profile.name }}</a></span><span class="date">{{ application.datetime|date:"Y-m-d H:i:s" }}</span></td>
+            <td class="anno-content" style="width:30%;"><div><span class="title">{{ application.title }}</span><span class="detail">{{ application.content }}</span></div></td>
+            <td class="teacher-name" style="width:20%;">
+                {% if application.is_processed %}
+                    {% if application.is_approved %}
+                        <span class="appl-approved">批准</span>
+                    {% else %}
+                        <span class="appl-declined">拒绝</span>
+                    {% endif %}
+                {% else %}
+                    <input type="hidden" value="{{ application.pk }}" /> <input class="accept-appl" type="button" value="批准" /> <input class="decline-appl" type="button" value="拒绝" />
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.accept-appl').click(function(){
+        var td = $(this).parent();
+        var aid = $('input[type=hidden]', td).val();
+        $.ajax({
+            url: '/rent/crud/'+aid,
+            type: 'POST',
+            dataType: 'json',
+            data: $.toJSON({
+                is_approved: true
+            }),
+            success: function(data){
+                oops.notif('成功批准申请！');
+                td.html('<span class="appl-approved">批准</span>');
+                decrease_number();
+            },
+            error: function(){
+                oops.oops('批准申请失败！');
+            }
+        });
+    });
+    $('.decline-appl').click(function(){
+        var td = $(this).parent();
+        var aid = $('input[type=hidden]', td).val();
+        $.ajax({
+            url: '/rent/crud/'+aid,
+            type: 'POST',
+            dataType: 'json',
+            data: $.toJSON({
+                is_approved: false
+            }),
+            success: function(data){
+                oops.notif('成功拒绝申请！');
+                td.html('<span class="appl-declined">拒绝</span>');
+                decrease_number();
+            },
+            error: function(){
+                oops.oops('拒绝申请失败！');
+            }
+        });
+    });
+});
+</script>
+{% endif %}
+{% if "管理员" in user.groupnames %}
+<h2>{{ user.get_profile.name }} 管理员，以下资源被批准使用。</h2>
+<table id="table">
+    <tbody>
+        <tr>
+            <th></th>
+            <th>申请人</th>
+            <th>申请理由</th>
+            <th></th>
+            <th>批准人</th>
+        </tr>
+        {% for application in applications %}
+        <tr>
+            <td class="profile-pic"><a href="/profile/{{application.applicants.pk}}"><img src="/static/images/profile/{{ application.applicants.pk }}"  width="40" height="40" alt="no pic" class="pic-item"></a></td>
+            <td class="name-and-date"><span class="name"><a href="/profile/{{ application.applicants.pk }}">{{ application.applicants.get_profile.name }}</a></span><span class="date">{{ application.datetime|date:"Y-m-d H:i:s" }}</span></td>
+            <td class="anno-content"><div><span class="title">{{ application.title }}</span><span class="detail">{{ application.content}}</span></div></td>
+            <td class="teacher-pic"><a href="/profile/{{ application.to_teacher.pk }}"><img src="/static/images/profile/{{ application.to_teacher.pk }}"  width="40" height="40" alt="no pic" class="pic-item"></a></td>
+            <td class="teacher-name"><span class="name">{{ application.to_teacher.get_profile.name }}</span></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+</div>
+{% endblock %}

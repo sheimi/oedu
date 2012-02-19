@@ -1,0 +1,45 @@
+{%extends "base.html"%}
+
+{% block page_title %}
+成绩管理
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/score/upload.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/score/popup.css" />
+{% endblock %}
+
+{% block additional_script %}
+<script src="/static/js/jquery/dropup.js" type="text/javascript"></script>
+<script type="text/javascript" src="/static/js/score/upload.js"></script>
+{% endblock %}
+
+
+{% block page_h1 %}
+{% endblock %}
+
+{% block content%}
+<div id="upload">
+    <div id="score-dropzone">把您的成绩文件放在此处</div>
+</div>
+<div id="courses">
+    <ul id="course-list">
+        <li>
+            <div class="list-title">
+                <div class="course-name">
+                    课程名称
+                </div>
+                <div class="course-grade">
+                    年级
+                </div>
+                <div class="grade-point">
+                    学分
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block body_script %}
+{% endblock %}

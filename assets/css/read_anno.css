@@ -1,0 +1,67 @@
+div#body {
+	width: 70%;
+	margin: 0 auto;
+}
+div#title {
+	border-bottom: 1px solid #e8e8e8;
+}
+span#anno-title {
+	font-size: 20px;
+}
+a#anno-statistics {
+	float: right;
+	font-size: 10px;
+	margin-left: 300px;
+    background: rgba(68, 155, 255, .5);
+    border-radius: 3px;
+    padding: 1px 3px;
+    color: #fff;
+}
+div#anno-content {
+    color: #000;
+}
+div#anno-content p.publisher {
+    font-size: .75em;
+}
+div#anno-content, div#reply-area {
+	margin-top: 10px;
+	border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    padding: 5px;
+}
+#reply-list li {
+	border-bottom: 1px solid #E8E8E8;
+    clear: both;
+    font-size: .9em;
+}
+#reply-list li img {
+    margin-right: 5px;
+}
+#reply-list li span.reply-time {
+    float: right;
+    color: #777;
+    font-size: .75em;
+}
+div#reply-area textarea {
+    margin-top: 10px;
+}
+ul#unread-users-list {
+    float: right;
+    clear: both;
+    background: rgba(255, 175, 15, .5);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: .75em;
+}
+ul#unread-users-list li {
+    width: 150px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+ul#unread-users-list a {
+    margin-left: 10px;
+    color: #fff;
+}
+ul#unread-users-list a#send-mail-to-unread {
+    color: rgba(255, 0, 0, .5);
+}

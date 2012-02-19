@@ -1,0 +1,65 @@
+div#content {
+    padding: 15px;
+}
+
+div#share-area{
+    padding: 10px;
+    border: 5px double #D5E8E7;
+}
+
+#share-area li {
+    font-size: 1em;
+    padding: 5px;
+}
+.left {
+    float: left;
+}
+
+#share-area li.item{
+    border-bottom: 1.5px solid #D5E8E7;
+    padding: 2px;
+    cursor: pointer;
+    font: 1em "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+    color: #5BA4A1;
+}
+
+li.item.hover {
+    background: #FFFFBE
+}
+
+#share-area li.item-title {
+    border-top: 4px double #D5E8E7;
+    border-bottom: 4px double #D5E8E7;
+    font: 1em "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+    color: #5BA4A1;
+}
+
+#share-area li.item a, #share-area li.item a:visited{
+    color: #5BA4A1;
+}
+
+div.list {
+    width: 200px;
+    height: 300px;
+    margin: 10px;
+    border: 1px solid #bbb;
+}
+
+div.list.hover {
+    border: 1px solid red;
+}
+
+ul#candidate, ul#selected {
+    height: 100%;
+}
+#file-dropzone {
+    height : 2em;
+    text-align: center;
+    border: 2px dashed #aaaaaa;
+    padding: 2px;
+    margin-bottom: 5px;
+}
+
+#progressbar {
+    display: block;
+}

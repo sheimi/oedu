@@ -1,0 +1,49 @@
+<div id="share-status">
+	<label>添加评论</label><br/>
+	<textarea id="comment"></textarea>
+	<div class="next">
+	   <a id="add-comment">添加评论</a>&nbsp&nbsp
+	   <a id="pre" href="/share/pre/{{share.pk}}">设置权限</a>
+	</div>
+</div>
+<script>
+
+$("#pre").fancybox({
+    transitionIn: 'elastic',
+    transitionOut: 'elastic',
+    overlayOpacity: 0.1,
+    opacity: true,
+});
+
+$("#add-comment").click(upload);
+
+function upload() {
+    var comment = $("#comment").val();
+    $.ajax({
+         url: '/share/crud/{{share.pk}}',
+         type: 'POST',
+         dataType: 'json',
+         data: $.toJSON({
+            comment: comment,
+         }),
+         success: function(){
+            $.ajax({
+               url: '/share/crud/{{share.pk}}',
+               type: 'GET',
+               dataType: 'json',
+               success: function(data){
+                 var shareLi = $(oops.makeShareLi(data[0]));
+                 shareLi.prependTo($('#share-list'));
+               },
+               error: function(){
+                  oops.oops('读取分享失败');
+               }
+            });
+            oops.notif('分享成功！');
+         },
+         error: function(){
+            oops.oops('分享失败！');
+         }
+      });
+}
+</script>

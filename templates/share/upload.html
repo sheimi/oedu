@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Share Management
+{% endblock %}
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/share/share.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/jquery/jqueryui/base/jquery.ui.progressbar.css" />
+{% endblock %}
+
+{% block additional_script %}
+
+{% endblock %}
+
+{% block content%}
+
+<script src="/static/js/jquery/dropup.js" type="text/javascript">
+</script>
+<script src="/static/js/jquery/jqueryui/jquery.ui.widget.min.js" type="text/javascript">
+</script>
+<script src="/static/js/jquery/jqueryui/jquery.ui.progressbar.min.js" type="text/javascript">
+</script>
+<div id="share-area">
+    <div id="upload">
+        <div id="file-dropzone">
+            把您的要上传的文件放在此处
+        </div>
+        <div id="progressbar">
+        </div>
+    </div>
+    <div id="shares">
+        <ul id="share-list">
+            <li class="item-title">
+                <div class="list-url">
+                    URL
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+{%endblock%}
+
+{% block body_script %}
+<script>
+    $(document).ready( function() {
+
+        $( "#progressbar" ).progressbar({});
+        $(".item").hover( function() {
+            $(this).addClass("hover");
+        }, function() {
+            $(this).removeClass("hover");
+        });
+        $("#file-dropzone")
+        .dropup({
+            url: '/upload',
+            params: { func: 'upload' },
+            max_file_size: 10000,
+            on_complete: function() {
+                $('#file-dropzone').css({backgroundColor: 'transparent'});
+                get_share_list();
+            },
+            on_start: function($index, $file) {
+                $( "#progressbar" ).css({display: "block"});
+                if (!$('#status [title="'+$file.name+'"]').length) {
+                    $('<div title="'+$file.name+'">'+
+                    'File="'+$file.name+'", Bytes='+$file.size+', Status='+
+                    '<span>Uploading...<\/span>'+
+                    '<\/div>')
+                    .appendTo('#status');
+                }
+            },
+            on_progress: function($index, $file, $per) {
+                $( "#progressbar" ).progressbar("value", $per);
+            },
+            on_finish: function($index, $file, $json) {
+            },
+            on_g_enter: function() {
+                $('#file-dropzone').css({backgroundColor: '#dddddd'});
+            },
+            on_enter: function() {
+                $('#file-dropzone').css({backgroundColor: '#bbbbbb'});
+            },
+            on_g_leave: function() {
+                $('#file-dropzone').css({backgroundColor: 'transparent'});
+            }
+        });
+
+        get_share_list();
+
+        function get_share_list() {
+            $.getJSON('/share/share_list/', {}, function(data) {
+                var li = '';
+                $.each(data, function(i, share) {
+                    //var uid = share.fields.publisher;
+                    //var publisher = oops.tryGetProfileFromCache(uid);
+                    var type = share.fields.type;
+                    var s = '';
+                    if (type == 'link') {
+                        s = share.fields.url
+                    } else if (type == 'status') {
+                        s = share.share_object.fields.content;
+                    } else if (type == 'file') {
+                        s = share.fields.comment
+                    } else {
+                        s = share.fields.url
+                    }
+
+                    li += '<li class="item"><a class="ajax-popup" href="/share/pre/'
+                    +share.pk+'"><div class="list-url">'
+                    + s + '</div></a></li>';
+                });
+                $(".item").remove();
+                $(li).appendTo("#share-list");
+                $('.ajax-popup').fancybox({
+                    transitionIn: 'elastic',
+                    transitionOut: 'elastic',
+                    overlayOpacity: 0.1,
+                    opacity: true
+                });
+            });
+        }
+
+    });
+</script>
+{% endblock %}

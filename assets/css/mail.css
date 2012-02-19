@@ -1,0 +1,36 @@
+tag {
+	float: left;
+}
+tag.flag {
+	width: 5%;
+}
+
+tag.sender {
+	width: 10%;
+}
+tag.conten {
+	width: 80%;
+}
+tag.date {
+	width: 5%;	
+}
+span.title {
+	display: inline;
+	width:150px;
+	margin-right: 0px;
+	white-space: nowrap;
+
+}
+span.detail {
+	padding: 1px 0 0 0;
+	display: inline;
+	color: #898776;
+}
+span.title:hover {
+    cursor: pointer;
+}
+p.detail {
+    border: 1px solid #888;
+    border-radius: 3px;
+    padding: 2px;
+}

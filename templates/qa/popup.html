@@ -1,0 +1,40 @@
+<div class="popup-box">
+    <h3>提问题</h3>
+    
+    <label>标题：</label><br />
+    <input type="text" id="popup-question-title" class="input-tip" value="输入标题" /><br />
+    
+    <label>被提问者：</label><br />
+    <input type="text" id="popup-question-receiver" class="input-tip popup-receiver" value="输入被提问的老师" /><br />
+	<input type="hidden" id="target-pk" <br />
+    
+    <label>内容：</label><br />
+    <textarea id="popup-question-content" class="input-tip">输入提问内容</textarea>
+    
+    <div class="popup-buttons">
+        <input id="popup-question-send" type="button" value="发送">
+        <input class="popup-cancel" type="button" value="取消">
+    </div>
+    <script type="text/javascript">
+    $('#popup-question-receiver').autocomplete({
+        minLength: 1,
+        source: function(request, response){
+            console.info(request);
+            $.getJSON('/search/user', {realname: request.term}, function(data){
+                response($.map(data, function(item){
+                    var profile = oops.tryGetProfileFromCache(item.pk);
+                    return {
+                    label: profile.name,
+                    value: profile.name,
+					pk: item.pk
+                    }
+                }));
+            });
+        },
+        select: function(event, ui){
+            $(this).val(ui.item.label);
+			$('#target-pk').val(ui.item.pk);
+        }
+    });
+    </script>
+</div>

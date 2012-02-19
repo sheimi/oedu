@@ -1,0 +1,74 @@
+{%extends "base.html"%}
+
+{% block page_title %}
+问答
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/anno.css" />
+{% endblock %}
+
+{% block additional_script %}
+
+{% endblock %}
+
+{% block content%}
+<div id="body">
+	<div id="title"><h1>问答</h1></div>
+	<!--
+	<div class="page">
+		<ul>
+			<li><a href="#" class="page-1 current-page">1</a></li>
+			<li><a href="#" class="page-2">2</a></li>
+			<li><a href="#" class="page-next">下一页</a></li>
+		</ul>
+	</div>
+	-->
+	<div id="table">
+		<table>
+			<tbody>
+				{% for question in questions %}
+				<tr{% if not question.isRead %} class="unread"{% endif %}>
+						<!-- add avatar id -->
+				    <td class="profile-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="name-and-date"><span class="name"><a href="#">{{ question.publisher.get_profile.name }}</a></span><span class="date">{{ question.publish_time }}</span></td>
+					<td class="anno-content"><div><span class="title"><a href="#">{{ question.title }}</a></span><span class="detail"><a href="#">{{ question.content }}</a></span></div></td>
+					<td class="teacher-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="teacher-name"><span class="name"><a href="#">{{ question.receiver.get_profile.name }}</a></span></td>
+				</tr>
+				{% endfor %}
+				<tr>
+					<td class="profile-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="name-and-date"><span class="name"><a href="#">姚佳玮</a></span><span class="date">2011-05-24 09:30</span></td>
+					<td class="anno-content"><div><span class="title"><a href="#">关于作业3第五题</a></span><span class="detail"><a href="#">老师，第五题怎么做啊？不会...</a></span></div></td>
+					<td class="teacher-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="teacher-name"><span class="name"><a href="#">激动哥</a></span></td>
+				</tr>
+				<tr>
+					<td class="profile-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="name-and-date"><span class="name"><a href="#">姚佳玮</a></span><span class="date">2011-05-24 09:30</span></td>
+					<td class="anno-content"><div><span class="title"><a href="#">关于大作业</a></span><span class="detail"><a href="#">老师，第五题怎么做啊？不会卡上非哈开始到卡上的卡上...</a></span></div></td>
+					<td class="teacher-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="teacher-name"><span class="name"><a href="#">涛哥</a></span></td>
+				</tr>
+				<tr>
+					<td class="profile-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="name-and-date"><span class="name"><a href="#">姚佳玮</a></span><span class="date">2011-05-24 09:30</span></td>
+					<td class="anno-content"><div><span class="title"><a href="#">关于上课</a></span><span class="detail"><a href="#">老师你上课太有激情了，我们都很喜欢你...</a></span></div></td>
+					<td class="teacher-pic"><a href="#"><img src="/static/198.png"  alt="no pic"></a></td>
+					<td class="teacher-name"><span class="name"><a href="#">激动哥</a></span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!--
+	<div class="page">
+		<ul>
+			<li><a href="#" class="page-1 current-page">1</a></li>
+			<li><a href="#" class="page-2">2</a></li>
+			<li><a href="#" class="page-next">下一页</a></li>
+		</ul>
+	</div>
+	-->
+</div>
+{%endblock%}

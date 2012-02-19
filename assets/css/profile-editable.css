@@ -1,0 +1,14 @@
+div.personal-info-area input:hover {
+	background: #fff;
+	border-color: #DFEFE5;
+}
+div.personal-info-area input.edit {
+	border-color: #85B7B4;
+}
+#profile-info-location:hover {
+		border: 1px solid #fff;
+}
+#profile-info-location.edit {
+		border: 1px solid #85B7B4;
+		background: #fff;
+}

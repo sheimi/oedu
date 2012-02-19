@@ -1,0 +1,88 @@
+@import url("reset.css");
+
+/* layout */
+div#main {
+	width: 1000px;
+	margin: 0 auto;
+}
+div#content-left {
+	float: left;
+}
+div#content-main {
+	float: right;
+}
+.clear {
+	clear: both;
+}
+/* styling */
+/* for test only
+ div {
+ border: 1px solid #eee;
+ }*/
+
+body {
+	background: url("/static/css/top_bg.png") repeat-x;
+}
+div#header {
+	margin: 5px 0 10px 0;
+}
+img#user-avatar {
+	margin: 10px 45px;
+	border:2px solid #fff;
+}
+div#logo {
+	display: inline;
+}
+div#content {
+	background-color: rgba(255, 255, 255, 0.55);
+	border-radius: 3px;
+}
+div#content-left {
+	margin-bottom: 10px;
+	width: 250px;
+}
+div#content-main {
+	margin-bottom: 10px;
+	width: 700px;
+}
+div#footer {
+	text-align: center;
+}
+ul#top-nav {
+	display: inline;
+}
+ul#top-nav li {
+	display: inline;
+}
+ul#top-nav li a {
+	color: #fff;
+}
+form#global-search {
+	float: right;
+}
+form#global-search input {
+	display: inline;
+	margin: 0px;
+}
+input#search-box {
+	border: 1px solid #eee;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+/* tag styling */
+h1 {
+	padding: 2px;
+	display: inline-block;
+}
+h2.tag-header {
+	display: inline-block;
+	background: #FFCC66;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	margin-top: 10px;
+	padding: 4px;
+}
+div.tag-box {
+	background: #FFCC66;
+	border-radius: 3px;
+}

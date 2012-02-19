@@ -1,0 +1,37 @@
+ul.list a:hover {
+	text-decoration: underline;
+}
+ul.list a{
+	color: #06f;
+}
+ul.list li{
+	border-bottom: 1px solid #E8E8E8;
+}
+div.img{
+	float: left;
+	width: 10%;
+}
+img {
+	margin-top: 6px;
+}
+div.content{
+	float: left;
+	width: 90%;
+    margin-top: 10px;
+}
+ul.reply-list {
+	background-color: #E8E8E8;
+	font-size: 0.75em;
+	width: 65%;
+}
+ul.reply-list li {
+	border-bottom: 1px solid #fff;
+}
+div.reply-area {
+	background-color: #E8E8E8;
+	width: 65%;
+}
+span.publish-time {
+	font-size: 0.75em;
+	color: #777;
+}

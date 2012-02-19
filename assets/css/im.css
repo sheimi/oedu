@@ -1,0 +1,209 @@
+/**
+ * css for instant messaging corresponding elements.
+ * author: kavinyao
+ * revision: 7
+ */
+div.oops-top-notif{
+    padding: 0 10px;
+    background: orange;
+    color: #fff;
+    font-size: .8em;
+    opacity: .75;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+div.oops-top-error{
+    padding: 0 10px;
+    background: red;
+    color: #fff;
+    font-size: .8em;
+    opacity: .75;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+div#footer {
+    margin-bottom: 40px;
+}
+
+div#bottom-bar {
+    z-index: 400;
+    position: fixed;
+    bottom: 0;
+    left: auto;
+    right: auto;
+    width: 1000px;
+    height: 30px;
+    background: #eee;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 0 0 5px #000;
+    font-size: 75%;
+}
+
+input#chat-target {
+    width: 100px;
+    margin-top: 5px;
+    border: 1px solid #ababab;
+}
+
+ul#online-user {
+    background-color: #fff;
+    opacity: .5;
+    border: 1px solid #eee;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+ul#online-user li {
+    width: 100px;
+}
+
+ul#online-user li:hover {
+    background: #cbcbcb;
+    color: #fff;
+    cursor: pointer;
+}
+
+ul#online-user li span.user-id {
+    display: none;
+}
+
+div#chat-finder {
+    float: left;
+    margin-left: 10px;
+}
+
+ul#chat-window-list {
+    float: left;
+    margin-left: 10px;
+    height: 100%;
+}
+
+ul#chat-window-list li {
+    display: block;
+    float: left;
+    height: 26px;
+    font-size: 1.2em;
+    padding: 3px;
+    background-color: rgba(0, 102, 255, 0.3);
+    margin: 2px;
+}
+
+ul#chat-window-list li:hover {
+    cursor: pointer;
+}
+
+ul#chat-window-list span.close {
+    color: red;
+    border-radius: 2px;
+    padding: 0 3px;
+    margin-left: 2px;
+}
+
+ul#chat-window-list span.close:hover {
+    color: #fff;
+    background: red;
+    cursor: pointer;
+}
+
+div#chat-window-container div.chat-window {
+    width: 500px;
+    height: 380px;
+    background: #eee;
+    border-radius: 5px;
+    border: 1px solid #35D0F2;
+    display: none;
+    box-shadow: 1px 1px 5px #cbcbcb;
+}
+
+div#chat-window-container span.close-button {
+    float: right;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+div#chat-window-container span.min-button {
+    float: right;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+div#chat-window-container span.min-button:hover {
+    background: #fff;
+    color: blue;
+    cursor: pointer;
+}
+
+div#chat-window-container span.close-button:hover {
+    background: #fff;
+    color: blue;
+    cursor: pointer;
+}
+
+div#chat-window-container div.chat-window p.title{
+    height: 20px;
+    color: #fff;
+    background: blue;
+    font-size: 80%;
+    padding-left: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: move;
+    /* gradient header */
+    background: #3CABC4; /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3CABC4', endColorstr='#7FE1FF'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#3CABC4), to(#7FE1FF)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #3CABC4,  #7FE1FF); /* for firefox 3.6+ */ 
+}
+
+div#chat-window-container ul.message-pane {
+    width: 380px;
+    height: 250px;
+    margin: 2px;
+    float: left;
+    overflow-y: scroll;
+    background: #fff;
+    word-wrap: break-word;
+}
+
+div#chat-window-container ul.avatar-list {
+    width: 100px;
+    height: 250px;
+    margin: 2px;
+    float: right;
+    background: #eee;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+
+div#chat-window-container ul.avatar-list span.online {
+    color: rgba(100, 200, 100, .75);
+}
+
+div#chat-window-container ul.message-pane span.hilight{
+    color: orange;
+}
+
+div#chat-window-container ul.message-pane span.hilight-me{
+    color: blue;
+}
+
+div#chat-window-container textarea.message-input {
+    float: left;
+    width: 380px;
+    height: 60px;
+    margin-left: 5px;
+}
+
+div#chat-window-container input.message-submit {
+    display: block;
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    height: 40px;
+    background: #cbcbcb;
+    border-radius: 5px;
+    border: none;
+}

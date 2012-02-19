@@ -1,0 +1,137 @@
+{%extends "base.html"%}
+
+{% block page_title %}
+通知详情
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/read_anno.css" />
+{% endblock %}
+
+{% block additional_script %}
+
+{% endblock %}
+
+{% block content%}
+<h2><a href="/anno">&lt;&lt;返回</a></h2>
+<div id="body">
+	<div id="title">
+		<span id="anno-title">{{ anno.title }}</span>
+		<a id="anno-statistics" href="#">{{ anno.statistics.read }}/{{ anno.statistics.total }}</a>
+        <p class="clear"></p>
+        <ul id="unread-users-list" style="display: none;">
+            {% for user in anno.get_unread_users%}
+            <li><a class="user" href="/profile/{{ user.pk }}">{{ user.get_profile.name }}</a></li>
+            {% endfor %}
+            {% if anno.get_unread_users and "老师" in user.groupnames%}
+            <li>
+                <a href="#" id="send-mail-to-unread">给未读学生发邮件</a>
+            </li>
+            {% endif %}
+        </ul>
+	</div>
+	<div id="anno-content">
+        <p class="publisher">发布人：<a href="/profile/{{ anno.publisher.pk }}">{{ anno.publisher.get_profile.name }}</a></p>
+        <p>{{ anno.content }}</p>
+    </div>
+	<div id="reply-area">
+        <ul id="reply-list">
+            {% for announcementreply in anno.announcementreply_set.all %}
+            <li>
+                <img src="/static/images/profile/{{announcementreply.publisher.pk}}" width="16" height="16" /><a href="/profile/{{ announcementreply.publisher.pk }} class="replyer">{{ announcementreply.publisher.get_profile.name }}</a> 说到：<span class="reply-content">{{ announcementreply.content }}</span><span class="reply-time">{{ announcementreply.publish_time|date:"Y-m-d H:i:s" }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+		<textarea rows="2" cols="60"></textarea>
+		<input id="anno-reply" type="submit" value="回复" id="reply=submit"/>
+	</div>
+</div>
+{%endblock%}
+{% block body_script %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#anno-statistics').toggle(function(){
+        $('#unread-users-list').slideDown();
+    },function(){
+        $('#unread-users-list').slideUp();
+    });
+    
+    $('#anno-reply').click(function(e){
+        e.preventDefault();
+        
+        var content = $(this).prev().val();
+        if(!content){
+            oops.oops('回复不能为空！');
+            return;
+        }
+        
+        var idregex = /^\/anno\/(\d+)\/read\/?$/;
+        var path = window.location.pathname;
+        var raw_id = path.match(idregex)[1];
+        
+        if(raw_id === undefined){
+            console.error('cannot get anno id');
+            return;
+        }
+        
+        $.ajax({
+            url: '/anno/reply/crud',
+            type: 'PUT',
+            dataType: 'json',
+            data: $.toJSON({
+                announcement: raw_id,
+                content: content
+            }),
+            success: function(id){
+                oops.notif('回复成功！');
+                $.getJSON('/anno/reply/crud/'+id, null, function(data){
+                    var reply = data[0];
+                    var profile = oops.tryGetProfileFromCache(reply.fields.publisher);
+                    var replyLi = $('<li><img src="/static/images/profile/' + reply.fields.publisher + '" width="16" height="16" /><a href="/profile/' + reply.fields.publisher + ' class="replyer">' + profile.name + '</a> 说到：<span class="reply-content">' + reply.fields.content + '</span><span class="reply-time">' + reply.fields.publish_time + '</span></li>');
+                    replyLi.hide().appendTo($('#reply-list')).slideDown();
+                });
+            },
+            error: function(){
+                oops.oops('回复失败！');
+            }
+        });
+    });
+    
+    $('#send-mail-to-unread').click(function(e){
+        e.preventDefault();
+        
+        var regex = /\/profile\/(\d+)\/?/;
+        var users = [];
+        $('#unread-users-list a.user').each(function(i){
+            users.push(parseInt($(this).attr('href').match(regex)[1]));
+        });
+        
+        var message = prompt('输入你想说的话：');
+        
+        if(!message){
+            oops.oops('内容不能为空！');
+            return;
+        }
+        var data = {
+            title: '请查看通知'+'{{anno.title}}',
+            to_users: users,
+            message: message
+        }
+        
+        $.ajax({
+            url: '/mail/send/mul',
+            type: 'PUT',
+            dataType: 'json',
+            data: $.toJSON(data),
+            success: function(data){
+                $.fancybox.close();
+                oops.notif('站内信发送成功！');
+            },
+            error: function(){
+                oops.oops('发送失败:(');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

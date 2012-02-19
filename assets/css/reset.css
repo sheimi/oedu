@@ -1,0 +1,51 @@
+/* Reset browser styles */
+h1, h2, h3, h4, h5, h6, p, div, ul, ol, li, code, pre, form, fieldset, html, body {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse; /* prevent double borders */
+	border-spacing: 0; 
+}
+
+td, th, caption {
+	font-weight: normal;
+	text-align: left;
+}
+
+img, fieldset {
+	border: 0; /* remove border around linked images and fieldset */
+}
+
+ol {
+	margin-left: 0; /* add smaller indent than default */
+	list-style: decimal;
+}
+
+ul {
+	margin-left: 0;
+	list-style: none;
+}
+
+li {
+    list-style: none;
+}
+
+q:before, q:after {
+	content: ''; /* remove browser generated quote marks */
+}
+
+p {
+	word-wrap: break-word;
+}
+
+a {
+	text-decoration: none;
+}
+
+input, textarea {
+    font-family: inherit;
+}

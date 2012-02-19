@@ -1,0 +1,66 @@
+{%extends "base.html"%}
+
+{% block page_title %}
+通知汇总
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/anno.css" />
+{% endblock %}
+
+{% block additional_script %}
+
+{% endblock %}
+
+{% block content%}
+<div id="body">
+	<div id="title"><h1>我的通知</h1></div>
+	<div id="select">
+		<ul>
+			<li><a href="#" id="all" class="current-select">全部</a></li>
+			<li><a href="#" id="read">已读</a></li>
+			<li><a href="#" id="unread">未读</a></li>
+		</ul>
+	</div>
+	<!--
+	<div class="page">
+		<ul>
+			<li><a href="#" class="page-1 current-page">1</a></li>
+			<li><a href="#" class="page-2">2</a></li>
+			<li><a href="#" class="page-next">下一页</a></li>
+		</ul>
+	</div>
+	-->
+	<div id="table">
+		<table>
+			<tbody>
+				{% for anno in annos %}
+				<tr>
+					<td class="profile-pic">
+						<a href="#"><img src="/static/images/profile/{{ anno.publisher.pk }}"  width="40" height="40" alt="no pic"></a>
+					</td>
+					<td class="name-and-date">
+						<span class="name"><a href="/profile/{{ anno.publisher.pk }}">{{ anno.publisher.get_profile.name }}</a></span>
+						<span class="date">{{ anno.publish_time }}</span>
+					</td>
+					<td class="anno-content">
+						<div>
+							<span class="title"><a href="/anno/{{ anno.pk }}/read">{{ anno.title }}</a></span>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<!--
+	<div class="page">
+		<ul>
+			<li><a href="#" class="page-1 current-page">1</a></li>
+			<li><a href="#" class="page-2">2</a></li>
+			<li><a href="#" class="page-next">下一页</a></li>
+		</ul>
+	</div>
+	-->
+</div>
+{%endblock%}

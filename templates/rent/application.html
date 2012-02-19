@@ -1,0 +1,23 @@
+{% extends "headerbase.html" %}
+
+{% block page_title %}
+Project Oedu
+{% endblock %}
+
+{% block additional_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/application.css" />
+{% endblock %}
+
+{% block content %}
+<div id="stylized" class="myform">
+	<div class="head"><h1>申请表</h1></div>
+	<div id="app-area">
+		<div class="item"><label><span>申请人</span></label><input type="text" size="18" class="in"/></div>
+		<div class="item"><label><span>申请对象</span></label><input type="text" size="18" class="in"/></div>
+		<div class="item"><label><span>设备名称</span></label><input type="text" size="18" class="in"/></div>
+		<div class="item"><label><span>租用时间</span></label><input type="text" size="18" class="in"/></div>
+		<div class="item" id="app-reason"><label>申请理由</label><textarea rows="15" cols="50"></textarea></div>
+		<input type="submit" value="提交" id="button"/>
+	</div>
+</div>
+{% endblock %}
